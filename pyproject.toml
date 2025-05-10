@@ -1,0 +1,6 @@
+name = "perplexity-correlation-data"
+version = "0.1.0"
+description = "temporary repo"
+authors = [{name="giyushino", email="allanzhang440@gmail.com" }]
+dependencies = [
+]

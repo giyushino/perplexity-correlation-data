@@ -1,0 +1,8 @@
+*.bin
+*.jsonl
+*.pyc
+*.zst
+__pycache__/
+data/domain_stats/
+*.py[cod]
+
