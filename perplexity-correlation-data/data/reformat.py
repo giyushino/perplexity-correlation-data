@@ -38,7 +38,6 @@ def extract_zsl(file_path, file_num, fasttext_classifier, tokenizer):
                         json_line = json.loads(line)
                         text = json_line["text"]
                         cleaned_text = text.replace("\n", " ")
-                        label, probability = fasttext_classifier.predict(cleaned_text)
                         token_length = len(tokenizer(cleaned_text, return_tensors="pt")["input_ids"][0])
                         total_tokens += token_length
                         domain = json_line["url"].split("//")[1].split("/")[0]
