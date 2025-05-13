@@ -4,5 +4,7 @@
 *.zst
 __pycache__/
 data/domain_stats/
+wandb/
+perplexity-correlation-data/perplexity-correlation-data/train/pythia-70m-deduped/
 *.py[cod]
 
