@@ -32,6 +32,8 @@ def train(dataset, tokenizer, model_size = "EleutherAI/pythia-160m-deduped"):
         bf16=True,
         gradient_accumulation_steps=1,
         report_to="wandb",   
+        num_train_epochs=1, 
+        logging_steps=10,
         ddp_backend="nccl",    
     )
     
@@ -53,7 +55,7 @@ if __name__ == "__main__":
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token 
-    dataset = load_dataset("json", data_files = "/home/allanz/perplexity-correlation-data/data/selected_subsets/random_10k.jsonl", split="train")
+    dataset = load_dataset("json", data_files = "/home/allanz/perplexity-correlation-data/data/selected_subsets/random.jsonl", split="train")
     dataset = dataset.select(range(1000))
     dataset = dataset.map(tokenize_dataset, batched=True)
     dataset = dataset.remove_columns(["text", "url", "file_num", "index", "label" ,"probability", "token_length"])
