@@ -20,20 +20,24 @@ def train(dataset, tokenizer, model_path = "EleutherAI/pythia-160m-deduped"):
     wandb.init(project="perplexity-llm-pretraining", 
                config = vars(config)) 
     # Hyperparameters from paper (Appendix G)
+    # reconfigured for 8 batch size
     training_args = TrainingArguments(
         output_dir= "/home/allanz/perplexity-correlation-data/data/model_weights/", 
         run_name="test_10k", 
         per_device_train_batch_size=8, 
-        learning_rate = 5e-3, 
+        learning_rate = 5e-4, 
         warmup_ratio=0.1,
         weight_decay=0.1,
         lr_scheduler_type="cosine",
         max_grad_norm=1.0,
         bf16=True,
-        gradient_accumulation_steps=1,
+        gradient_accumulation_steps=16,
         report_to="wandb",   
         num_train_epochs=1, 
         logging_steps=10,
+        save_strategy="steps",      
+        save_steps=500,             
+        save_total_limit=4,         
         ddp_backend="nccl",    
     )
     
