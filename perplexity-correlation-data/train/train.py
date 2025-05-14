@@ -12,10 +12,10 @@ def tokenize_dataset(example):
     tokens["labels"] = tokens["input_ids"].copy()
     return tokens
 
-def train(dataset, tokenizer, model_size = "EleutherAI/pythia-160m-deduped"):
+def train(dataset, tokenizer, model_path = "EleutherAI/pythia-160m-deduped"):
     #dataset = load_dataset("json", data_files = dataset_path) 
     # Reinitialize model to have random weights, training from scratch 
-    config = AutoConfig.from_pretrained(model_size)
+    config = AutoConfig.from_pretrained(model_path)
     reinit_model = GPTNeoXForCausalLM(config)
     wandb.init(project="perplexity-llm-pretraining", 
                config = vars(config)) 
@@ -49,14 +49,12 @@ def train(dataset, tokenizer, model_size = "EleutherAI/pythia-160m-deduped"):
 
 if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(
-    "EleutherAI/pythia-70m-deduped",
-    revision="step3000",
-    cache_dir="./pythia-70m-deduped/step3000",
+    "EleutherAI/pythia-160m-deduped",
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token 
     dataset = load_dataset("json", data_files = "/home/allanz/perplexity-correlation-data/data/selected_subsets/random.jsonl", split="train")
-    dataset = dataset.select(range(1000))
+    #dataset = dataset.select(range(1000))
     dataset = dataset.map(tokenize_dataset, batched=True)
     dataset = dataset.remove_columns(["text", "url", "file_num", "index", "label" ,"probability", "token_length"])
     print(dataset)
