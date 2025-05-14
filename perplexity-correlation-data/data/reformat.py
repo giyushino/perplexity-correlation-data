@@ -87,9 +87,6 @@ def extract_sort_key(filename):
     else:
         return (float('inf'), float('inf'), float('inf'))  
 
-
-
-
 def extract_data(start_index, end_index, data_path="/home/allanz/perplexity-correlation-data/data/raw_data/"):
     """
     Extract da data
