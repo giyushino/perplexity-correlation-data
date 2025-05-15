@@ -22,7 +22,7 @@ def train(dataset, tokenizer, model_path = "EleutherAI/pythia-160m-deduped"):
     # Hyperparameters from paper (Appendix G)
     # reconfigured for 8 batch size
     training_args = TrainingArguments(
-        output_dir= "/home/allanz/perplexity-correlation-data/data/model_weights/", 
+        output_dir= "/home/allanz/perplexity-correlation-data/data/model_weights/preselect/", 
         run_name="test_10k", 
         per_device_train_batch_size=8, 
         learning_rate = 5e-4, 
@@ -52,12 +52,13 @@ def train(dataset, tokenizer, model_path = "EleutherAI/pythia-160m-deduped"):
 
 
 if __name__ == "__main__":
+    # we trained with random
     tokenizer = AutoTokenizer.from_pretrained(
     "EleutherAI/pythia-160m-deduped",
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token 
-    dataset = load_dataset("json", data_files = "/home/allanz/perplexity-correlation-data/data/selected_subsets/random.jsonl", split="train")
+    dataset = load_dataset("json", data_files = "/home/allanz/perplexity-correlation-data/data/selected_subsets/preselect.jsonl", split="train")
     #dataset = dataset.select(range(1000))
     dataset = dataset.map(tokenize_dataset, batched=True)
     dataset = dataset.remove_columns(["text", "url", "file_num", "index", "label" ,"probability", "token_length"])
